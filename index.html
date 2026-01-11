@@ -249,9 +249,8 @@
             color: #666;
             align-items: center;
         }
-        
-        section { padding: 120px 10%; border-bottom: 1px solid rgba(255,255,255,0.02); }
 
+        section { padding: 120px 10%; border-bottom: 1px solid rgba(255,255,255,0.02); }
         .section-header { text-align: center; margin-bottom: 80px; }
         .section-header h2 { font-size: 2.5rem; margin-bottom: 15px; }
         .divider-gold { height: 1px; width: 80px; background: var(--gold-accent); margin: 0 auto; opacity: 0.6; }
@@ -274,25 +273,9 @@
         .partner-info h3 { font-size: 2rem; margin-bottom: 5px; }
         .partner-role { font-family: 'Montserrat'; font-size: 0.8rem; color: var(--gold-accent); text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 25px; display: block; }
 
-        .career-section {
-            background: #08080a;
-            text-align: center;
-        }
-
-        .career-box {
-            border: 1px solid var(--gold-muted);
-            padding: 60px;
-            max-width: 800px;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .career-box::before {
-            content: "RECRUTAMENTO FECHADO";
-            position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
-            background: #08080a; padding: 0 10px;
-            font-family: 'Montserrat'; font-size: 0.7rem; color: var(--alert-red); letter-spacing: 0.2em;
-        }
+        .career-section { background: #08080a; text-align: center; }
+        .career-box { border: 1px solid var(--gold-muted); padding: 60px; max-width: 800px; margin: 0 auto; position: relative; }
+        .career-box::before { content: "RECRUTAMENTO FECHADO"; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #08080a; padding: 0 10px; font-family: 'Montserrat'; font-size: 0.7rem; color: var(--alert-red); letter-spacing: 0.2em; }
 
         .contact-layout { display: grid; grid-template-columns: 1fr 2fr; gap: 80px; }
         .detail-row { margin-bottom: 40px; border-left: 2px solid var(--border-subtle); padding-left: 20px; }
@@ -303,25 +286,15 @@
         input:focus, select:focus, textarea:focus { border-bottom-color: var(--gold-accent); outline: none; }
         ::placeholder { color: #444; font-family: 'Montserrat'; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
+        select option {
+            background-color: #000;
+            color: #e0e0e0;
+            padding: 10px;
+        }
+
         footer { background: #000; padding: 80px 10% 40px; border-top: 1px solid #222; }
-        
-        .newsletter-box {
-            background: #0a0a0c;
-            padding: 40px;
-            border: 1px solid #222;
-            margin-bottom: 60px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 40px;
-        }
-
-        .newsletter-input {
-            display: flex;
-            width: 100%;
-            gap: 0;
-        }
-
+        .newsletter-box { background: #0a0a0c; padding: 40px; border: 1px solid #222; margin-bottom: 60px; display: flex; align-items: center; justify-content: space-between; gap: 40px; }
+        .newsletter-input { display: flex; width: 100%; gap: 0; }
         .footer-bottom { margin-top: 60px; padding-top: 30px; border-top: 1px solid #111; display: flex; justify-content: space-between; align-items: center; font-family: 'Montserrat'; font-size: 0.65rem; color: #444; text-transform: uppercase; letter-spacing: 0.1em; }
 
         .modal-backdrop { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }
@@ -397,7 +370,7 @@
             <span>THE ECONOMIST</span>
             <span>THE WALL STREET JOURNAL</span>
             <span>BLOOMBERG LAW</span>
-            <span>OGAPORÃ ???</span>
+            <span>OGAPORÃ GAZETTE</span>
         </div>
     </div>
 
@@ -481,7 +454,7 @@
                 <div class="partner-info">
                     <h3>Arthur Sterling</h3>
                     <span class="partner-role">Sócio Fundador • Operações Internacionais</span>
-                    <p>Baseado permanentemente em Zurique, Sr. Sterling supervisiona os interesses globais da firma e consultoria bancária. Raramente em solo nacional, ele é a ponte entre Ogaporã e a segurança financeira global.</p>
+                    <p>Baseado permanentemente em Zurique, Sr. Sterling supervisiona os interesses globais da firma e consultoria bancária.</p>
                     <p style="font-size: 0.9rem; color: #666;">Nota: Sr. Sterling não aceita consultas diretas sem prévia aprovação do conselho.</p>
                 </div>
             </div>
@@ -527,24 +500,24 @@
                 </div>
             </div>
 
-            <form onsubmit="event.preventDefault(); alert('Solicitação recebida. Nossa equipe de triagem analisará a viabilidade do seu caso.');">
+            <form action="mailto:fioreesterling@gmail.com" method="post" enctype="text/plain">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
-                    <div style="margin-bottom: 30px;"><input type="text" placeholder="Nome Completo *" required></div>
-                    <div style="margin-bottom: 30px;"><input type="text" placeholder="Empresa / Entidade"></div>
+                    <div style="margin-bottom: 30px;"><input type="text" name="Nome" placeholder="Nome Completo *" required></div>
+                    <div style="margin-bottom: 30px;"><input type="text" name="Empresa" placeholder="Empresa / Entidade"></div>
                 </div>
-                <div style="margin-bottom: 30px;"><input type="email" placeholder="Email *" required></div>
-                <div style="margin-bottom: 30px;"><input type="tel" placeholder="Telefone Preferencial"></div>
+                <div style="margin-bottom: 30px;"><input type="email" name="Email" placeholder="Email *" required></div>
+                <div style="margin-bottom: 30px;"><input type="tel" name="Telefone" placeholder="Telefone Preferencial"></div>
                 <div style="margin-bottom: 30px;">
-                    <select>
+                    <select name="Assunto">
                         <option value="" disabled selected>Natureza do Assunto</option>
-                        <option>Defesa Criminal (Urgente)</option>
-                        <option>Investigação Corporativa</option>
-                        <option>Assunto Privado / Família</option>
-                        <option>Outro (Especificar na mensagem)</option>
+                        <option value="Defesa Criminal">Defesa Criminal (Urgente)</option>
+                        <option value="Investigacao Corporativa">Investigação Corporativa</option>
+                        <option value="Privado">Assunto Privado / Família</option>
+                        <option value="Outro">Outro (Especificar na mensagem)</option>
                     </select>
                 </div>
                 <div style="margin-bottom: 30px;">
-                    <textarea rows="4" placeholder="Breve descrição. Recomendamos omitir nomes de terceiros e detalhes sensíveis nesta etapa inicial."></textarea>
+                    <textarea name="Mensagem" rows="4" placeholder="Breve descrição. Recomendamos omitir nomes de terceiros e detalhes sensíveis nesta etapa inicial."></textarea>
                 </div>
                 <button type="submit" class="btn-gold" style="width: 100%;">Solicitar Avaliação de Caso</button>
             </form>
