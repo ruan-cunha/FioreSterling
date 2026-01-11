@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
     
-    <!-- Ícones -->
+    <!-- Ícones (Carregamento Assíncrono para não travar) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
 
     <style>
@@ -33,7 +33,6 @@
             scrollbar-color: var(--gold) var(--bg-color);
         }
 
-        /* Scrollbar Customizada */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-color); }
         ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 4px; }
@@ -64,7 +63,7 @@
         .gold-text { color: var(--gold); }
         .white-text { color: var(--white); }
 
-        /* --- PRELOADER --- */
+        /* --- PRELOADER FIXO --- */
         #preloader {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -74,7 +73,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
-            transition: opacity 1s ease;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
         .loader-logo {
@@ -147,6 +146,7 @@
             padding-left: 20px;
             margin-left: 10px;
             color: var(--gold);
+            cursor: pointer;
         }
 
         .cta-button {
@@ -160,6 +160,8 @@
             transition: all 0.4s;
             position: relative;
             overflow: hidden;
+            background: transparent;
+            cursor: pointer;
         }
 
         .cta-button::before {
@@ -197,7 +199,7 @@
             padding: 0 20px;
             opacity: 0;
             transform: translateY(30px);
-            animation: fadeInUp 1.5s forwards 1.8s; /* Delay para o preloader */
+            animation: fadeInUp 1.5s forwards 1s; /* Animação mais rápida */
         }
 
         .hero h1 {
@@ -289,12 +291,12 @@
         }
 
         .sig-img {
-            font-family: 'Mrs Saint Delafield', cursive; /* Fallback */
+            font-family: cursive; /* Fallback simples */
             font-size: 2rem;
             color: var(--gold);
         }
 
-        /* --- CASE STUDIES (Redacted) --- */
+        /* --- CASE STUDIES --- */
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -337,7 +339,7 @@
 
         .redacted:hover {
             background-color: transparent;
-            color: var(--red-alert); /* Revela a "verdade" ou erro */
+            color: var(--red-alert);
         }
 
         .case-result {
@@ -350,7 +352,7 @@
             padding-top: 15px;
         }
 
-        /* --- PARTNER (Donovan) --- */
+        /* --- PARTNER --- */
         .partner-quote {
             background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80');
             background-attachment: fixed;
@@ -394,7 +396,7 @@
             margin-top: 15px;
             font-size: 0.95rem;
             color: #888;
-            display: none; /* JS vai abrir */
+            display: none;
             font-style: italic;
         }
 
@@ -479,7 +481,7 @@
             text-transform: uppercase;
         }
 
-        /* Animations & FX */
+        /* Animations */
         @keyframes pulse { 0% {opacity: 0.5;} 50% {opacity: 1;} 100% {opacity: 0.5;} }
         @keyframes loadLine { 0% {width: 0;} 100% {width: 200px;} }
         @keyframes fadeInUp { to {opacity: 1; transform: translateY(0);} }
@@ -507,21 +509,23 @@
             display: none;
             justify-content: center;
             align-items: center;
+            backdrop-filter: blur(5px);
         }
 
         .login-box {
             background: var(--bg-color);
             border: 1px solid var(--gold);
             padding: 40px;
-            width: 400px;
+            width: 90%;
+            max-width: 400px;
             text-align: center;
             box-shadow: 0 0 50px rgba(197, 160, 89, 0.2);
+            position: relative;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             header { padding: 15px; }
-            nav { display: none; } /* Mobile menu simplified */
+            nav { display: none; }
             .hero h1 { font-size: 2.5rem; }
             .legacy-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
             section { padding: 60px 5%; }
@@ -530,13 +534,13 @@
 </head>
 <body>
 
-    <!-- Preloader -->
+    <!-- Preloader FIXO -->
     <div id="preloader">
         <div class="loader-logo">F & S</div>
         <div class="loader-line"></div>
     </div>
 
-    <!-- Modal Portal do Cliente -->
+    <!-- Modal Portal -->
     <div class="modal-overlay" id="portalModal">
         <div class="login-box">
             <h3 style="color: var(--gold); margin-bottom: 20px;">Acesso Restrito</h3>
@@ -561,7 +565,7 @@
                 <li><a href="#partner">Sócio Sênior</a></li>
                 <li>
                     <a href="#" onclick="document.getElementById('portalModal').style.display='flex'" class="client-portal-btn">
-                        <i data-lucide="lock" size="14"></i> Portal do Cliente
+                        Portal do Cliente
                     </a>
                 </li>
                 <li><a href="#contact" class="cta-button">Contatar</a></li>
@@ -594,12 +598,14 @@
                 </blockquote>
             </div>
             <div style="text-align: center;">
-                <i data-lucide="scale" size="60" color="#c5a059" style="opacity: 0.5;"></i>
+                 <!-- Placeholder de ícone em CSS puro para evitar quebra -->
+                <div style="font-size: 4rem; color: #c5a059; opacity: 0.5;">⚖</div>
                 <div style="margin-top: 20px; font-family: 'Cinzel'; color: #444;">EST. 19XX</div>
             </div>
         </div>
     </section>
 
+    <!-- O Legado Sterling (A Mentira) -->
     <section id="legacy" class="legacy-section">
         <div class="section-title">
             <h2>O Legado Sterling</h2>
@@ -628,6 +634,7 @@
         </div>
     </section>
 
+    <!-- Vitórias (Case Studies) -->
     <section id="cases">
         <div class="section-title">
             <h2>Vitórias Recentes</h2>
@@ -636,29 +643,27 @@
             <div class="case-card">
                 <span class="case-year">CASO #4920-B | 2023</span>
                 <h3 class="case-title">O Estado vs. <span class="redacted">GRUPO ALFA</span></h3>
-                <p style="font-size: 0.9rem;">Acusações: Fraude Corporativa em Larga Escala e <span class="redacted">TRÁFICO DE INFLUÊNCIA</span>.</p>
-                <p style="font-size: 0.9rem; margin-top: 10px;">Estratégia: Invalidação de provas obtidas via escuta não autorizada e desconstrução da credibilidade da testemunha chave.</p>
+                <p style="font-size: 0.9rem;">Acusações: Fraude Corporativa e <span class="redacted">TRÁFICO DE INFLUÊNCIA</span>.</p>
                 <div class="case-result">Veredito: ABSOLVIÇÃO TOTAL</div>
             </div>
 
             <div class="case-card">
                 <span class="case-year">CASO #5102-X | 2024</span>
                 <h3 class="case-title">Inquérito <span class="redacted">SENADOR V.</span></h3>
-                <p style="font-size: 0.9rem;">Acusações: Homicídio Culposo e Ocultação de Cadáver na região de <span class="redacted">DOWNTOWN</span>.</p>
-                <p style="font-size: 0.9rem; margin-top: 10px;">Estratégia: Reclassificação do fato para Legítima Defesa Putativa e acordo de confidencialidade com a família da vítima.</p>
+                <p style="font-size: 0.9rem;">Acusações: Homicídio Culposo e Ocultação de Cadáver em <span class="redacted">DOWNTOWN</span>.</p>
                 <div class="case-result">Resultado: ARQUIVADO</div>
             </div>
 
             <div class="case-card">
                 <span class="case-year">CASO #3391-A | 2024</span>
                 <h3 class="case-title">Aquisição Hostil <span class="redacted">INDÚSTRIAS K.</span></h3>
-                <p style="font-size: 0.9rem;">Contexto: Tentativa de bloqueio judicial de fusão bilionária por parte do Ministério Público.</p>
-                <p style="font-size: 0.9rem; margin-top: 10px;">Estratégia: Manobra jurídica utilizando precedentes internacionais citados pelo sócio Sterling.</p>
+                <p style="font-size: 0.9rem;">Contexto: Tentativa de bloqueio judicial de fusão bilionária.</p>
                 <div class="case-result">Resultado: FUSÃO APROVADA</div>
             </div>
         </div>
     </section>
 
+    <!-- O Sócio (Donovan) -->
     <section id="partner" class="partner-quote">
         <div class="quote-text">
             "A inocência é irrelevante. O que eu vendo é a dúvida razoável... e em Ogaporã, a dúvida custa caro."
@@ -669,26 +674,28 @@
         <p style="margin-top: 10px; font-size: 0.9rem; letter-spacing: 2px;">SÓCIO SÊNIOR</p>
     </section>
 
+    <!-- FAQ -->
     <section id="faq" style="background: #0c0d12;">
         <div class="section-title">
             <h2>Perguntas Frequentes</h2>
         </div>
         <div class="faq-container">
-            <div class="faq-item" onclick="this.querySelector('.faq-answer').style.display = this.querySelector('.faq-answer').style.display === 'block' ? 'none' : 'block'">
-                <div class="faq-question">Vocês aceitam casos Pro Bono (Gratuitos)? <i data-lucide="chevron-down" size="16"></i></div>
-                <div class="faq-answer">Não. Acreditamos que o valor da liberdade deve ser tangível. Se o seu caso é uma causa humanitária, sugerimos a Defensoria Pública.</div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">Vocês aceitam casos Pro Bono? <span>+</span></div>
+                <div class="faq-answer">Não. Acreditamos que o valor da liberdade deve ser tangível.</div>
             </div>
-            <div class="faq-item" onclick="this.querySelector('.faq-answer').style.display = this.querySelector('.faq-answer').style.display === 'block' ? 'none' : 'block'">
-                <div class="faq-question">Posso falar diretamente com o Sr. Sterling? <i data-lucide="chevron-down" size="16"></i></div>
-                <div class="faq-answer">Conforme mencionado, o Sr. Sterling reside na Europa e lida exclusivamente com contas institucionais. Todas as comunicações são filtradas pelo Sr. Fiore.</div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">Posso falar com o Sr. Sterling? <span>+</span></div>
+                <div class="faq-answer">O Sr. Sterling reside na Europa e lida exclusivamente com contas institucionais.</div>
             </div>
-            <div class="faq-item" onclick="this.querySelector('.faq-answer').style.display = this.querySelector('.faq-answer').style.display === 'block' ? 'none' : 'block'">
-                <div class="faq-question">Qual é a taxa de sucesso da firma? <i data-lucide="chevron-down" size="16"></i></div>
-                <div class="faq-answer">Se você precisa perguntar, provavelmente não pode pagar nossos honorários. Mas, para fins de registro: nunca perdemos um cliente que seguiu nossas instruções à risca.</div>
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">Qual é a taxa de sucesso? <span>+</span></div>
+                <div class="faq-answer">Se você precisa perguntar, provavelmente não pode pagar nossos honorários. Mas, para registro: nunca perdemos um cliente que seguiu nossas instruções.</div>
             </div>
         </div>
     </section>
 
+    <!-- Contact -->
     <section id="contact" class="contact-section">
         <div class="section-title">
             <h2>Canal Seguro</h2>
@@ -701,9 +708,6 @@
                     
                     <span class="info-label">LINHA CRIPTOGRAFADA (24H)</span>
                     <span class="info-value" style="color: var(--gold);">+55 41 3047-1891</span>
-                    
-                    <span class="info-label">CHAVE PGP PÚBLICA</span>
-                    <span class="info-value" style="font-size: 0.7rem; font-family: monospace;">89A1 29CC 001B F492...</span>
                 </div>
             </div>
             <form onsubmit="event.preventDefault(); alert('Solicitação enviada. Se o seu caso for interessante, entraremos em contato.');">
@@ -713,35 +717,32 @@
                 </div>
                 <input type="tel" placeholder="Número Descartável / Seguro" required>
                 <select>
-                    <option>Selecione a Gravidade da Situação</option>
-                    <option>Crítica (Risco de Prisão Imediata)</option>
-                    <option>Alta (Investigação em Curso)</option>
-                    <option>Preventiva (Blindagem)</option>
+                    <option>Selecione a Gravidade</option>
+                    <option>Crítica (Risco de Prisão)</option>
+                    <option>Alta (Investigação)</option>
                     <option>Sobrenatural / Inexplicável</option>
                 </select>
-                <textarea rows="5" placeholder="Descreva a situação omitindo nomes reais e locais específicos."></textarea>
-                <button type="submit" class="cta-button" style="width: 100%; cursor: pointer;">Solicitar Audiência de Emergência</button>
+                <textarea rows="5" placeholder="Descreva a situação omitindo nomes reais."></textarea>
+                <button type="submit" class="cta-button" style="width: 100%; cursor: pointer;">Solicitar Audiência</button>
             </form>
         </div>
     </section>
 
-
+    <!-- Footer -->
     <footer>
         <div class="footer-grid">
             <div class="footer-col">
                 <h4>NAVEGAÇÃO</h4>
                 <ul>
                     <li><a href="#">Home</a></li>
-                    <li><a href="#">A Firma</a></li>
-                    <li><a href="#">Portal do Cliente</a></li>
-                    <li><a href="#">Imprensa (Restrito)</a></li>
+                    <li><a href="#firm">A Firma</a></li>
+                    <li><a href="#cases">Vitórias</a></li>
                 </ul>
             </div>
             <div class="footer-col">
                 <h4>ÁREAS DE PRÁTICA</h4>
                 <ul>
                     <li>Defesa Criminal</li>
-                    <li>Crime de Colarinho Branco</li>
                     <li>Gestão de Crise</li>
                     <li>Direito do "Mausoléu"</li>
                 </ul>
@@ -750,7 +751,6 @@
                 <h4>LEGAL</h4>
                 <ul>
                     <li>Política de Privacidade</li>
-                    <li>Termos de Retenção</li>
                     <li>Aviso de Isenção</li>
                 </ul>
             </div>
@@ -759,31 +759,53 @@
             FIORE <span>&</span> STERLING
         </div>
         <div class="disclaimer-text">
-            © 2024 Fiore & Sterling Associates. Sede: Ogaporã. Filial Virtual: Zurique.<br><br>
-            AVISO DE CONFIDENCIALIDADE: O conteúdo deste site é destinado apenas para fins informativos de alto nível. Nenhuma relação advogado-cliente é formada pelo uso deste site. O escritório reserva-se o direito de recusar clientes baseados em conflito de interesses ou falta de alinhamento estético-moral. Qualquer tentativa de hackear este domínio resultará em contra-medidas legais e extrajudiciais imediatas.
+            © 2024 Fiore & Sterling Associates. Sede: Ogaporã.<br><br>
+            AVISO: O conteúdo deste site é informativo. Nenhuma relação advogado-cliente é formada pelo uso deste site. O escritório reserva-se o direito de recusar clientes baseados em falta de alinhamento estético-moral.
         </div>
     </footer>
 
     <script>
-        lucide.createIcons();
-
-        // Remove Preloader
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('preloader').style.opacity = '0';
+        // Função para garantir que o preloader suma
+        function removePreloader() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.style.opacity = '0';
                 setTimeout(() => {
-                    document.getElementById('preloader').style.display = 'none';
-                }, 1000);
-            }, 1500); 
+                    preloader.style.display = 'none';
+                }, 800);
+            }
+        }
+
+        // Tenta remover assim que carregar
+        window.addEventListener('load', () => {
+             // Pequeno delay para apreciar o logo
+             setTimeout(removePreloader, 1500);
         });
 
+        // FALLBACK DE SEGURANÇA: Se algo travar, remove em 2.5s de qualquer jeito
+        setTimeout(removePreloader, 2500);
+
+        // Ícones
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
+        // FAQ Toggle
+        function toggleFaq(element) {
+            const answer = element.querySelector('.faq-answer');
+            const display = answer.style.display;
+            answer.style.display = display === 'block' ? 'none' : 'block';
+        }
+
+        // Smooth Scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 if(this.getAttribute('href') === '#') return;
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                const target = document.querySelector(this.getAttribute('href'));
+                if(target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             });
         });
     </script>
