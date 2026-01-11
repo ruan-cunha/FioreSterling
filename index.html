@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiore & Sterling Associates | Ogaporã</title>
+    
+    <!-- Fontes de Luxo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet">
+    
+    <!-- Ícones -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #08090c; 
+            --bg-secondary: #0f1116;
+            --text-color: #e0e0e0;
+            --gold: #c5a059; 
+            --gold-light: #e6c888;
+            --gold-dim: #8a6e36;
+            --white: #ffffff;
+            --red-alert: #8a0303;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) var(--bg-color);
+        }
+
+        /* Scrollbar Customizada */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Lato', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+
+        /* Tipografia */
+        h1, h2, h3, h4, .brand, .btn-text {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        p, blockquote {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: #b0b0b0;
+        }
+
+        .gold-text { color: var(--gold); }
+        .white-text { color: var(--white); }
+
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--bg-color);
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            transition: opacity 1s ease;
+        }
+
+        .loader-logo {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            color: var(--gold);
+            animation: pulse 2s infinite;
+        }
+
+        .loader-line {
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            margin-top: 20px;
+            animation: loadLine 2s forwards;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(8, 9, 12, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(197, 160, 89, 0.1);
+            transition: all 0.3s;
+        }
+
+        .brand {
+            font-size: 1.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .brand span { color: var(--gold); }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+        }
+
+        nav a {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--white);
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--gold); }
+
+        .client-portal-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.75rem;
+            border-left: 1px solid var(--gold-dim);
+            padding-left: 20px;
+            margin-left: 10px;
+            color: var(--gold);
+        }
+
+        .cta-button {
+            border: 1px solid var(--gold);
+            padding: 10px 25px;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.4), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::before { left: 100%; }
+        .cta-button:hover {
+            background-color: rgba(197, 160, 89, 0.1);
+            box-shadow: 0 0 20px rgba(197, 160, 89, 0.2);
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(to bottom, rgba(8, 9, 12, 0.3), rgba(8, 9, 12, 1)), 
+                        url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            padding: 0 20px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s forwards 1.8s; /* Delay para o preloader */
+        }
+
+        .hero h1 {
+            font-size: 3.8rem;
+            margin-bottom: 15px;
+            color: var(--white);
+            text-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            line-height: 1.1;
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--gold);
+            margin-bottom: 40px;
+            font-style: italic;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .location-tag {
+            display: inline-block;
+            margin-bottom: 20px;
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            letter-spacing: 4px;
+            color: var(--white);
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 5px;
+        }
+
+        /* --- SECTIONS --- */
+        section { padding: 100px 10%; position: relative; }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--white);
+            display: inline-block;
+            background: var(--bg-color);
+            padding: 0 20px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px; height: 1px;
+            background: var(--gold);
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        /* --- THE LEGACY (Sterling) --- */
+        .legacy-section {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .legacy-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 80px;
+            align-items: center;
+        }
+
+        .legacy-text p { margin-bottom: 20px; text-align: justify; }
+
+        .signature-block {
+            margin-top: 30px;
+            display: flex;
+            gap: 40px;
+        }
+
+        .sig-item small {
+            display: block;
+            font-family: 'Lato', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .sig-img {
+            font-family: 'Mrs Saint Delafield', cursive; /* Fallback */
+            font-size: 2rem;
+            color: var(--gold);
+        }
+
+        /* --- CASE STUDIES (Redacted) --- */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .case-card {
+            background: #111;
+            border: 1px solid #222;
+            padding: 40px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .case-card:hover { border-color: var(--gold-dim); }
+
+        .case-year {
+            font-family: 'Cinzel', serif;
+            color: var(--gold-dim);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .case-title {
+            color: var(--white);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-family: 'Cinzel', serif;
+        }
+
+        .redacted {
+            background-color: var(--text-color);
+            color: var(--text-color);
+            padding: 0 4px;
+            user-select: none;
+            cursor: help;
+            transition: 0.3s;
+        }
+
+        .redacted:hover {
+            background-color: transparent;
+            color: var(--red-alert); /* Revela a "verdade" ou erro */
+        }
+
+        .case-result {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-top: 1px solid #222;
+            padding-top: 15px;
+        }
+
+        /* --- PARTNER (Donovan) --- */
+        .partner-quote {
+            background: linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1951&q=80');
+            background-attachment: fixed;
+            background-size: cover;
+            padding: 150px 15%;
+            text-align: center;
+        }
+
+        .quote-text {
+            font-size: 2.2rem;
+            color: var(--white);
+            font-style: italic;
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+
+        .quote-author {
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* --- FAQ --- */
+        .faq-container { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            border-bottom: 1px solid #222;
+            padding: 20px 0;
+        }
+
+        .faq-question {
+            font-family: 'Cinzel', serif;
+            color: var(--white);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            margin-top: 15px;
+            font-size: 0.95rem;
+            color: #888;
+            display: none; /* JS vai abrir */
+            font-style: italic;
+        }
+
+        /* --- CONTACT --- */
+        .contact-section {
+            background: #0c0d12;
+            border-top: 1px solid var(--gold-dim);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+        }
+
+        .info-card {
+            background: rgba(255,255,255,0.02);
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .info-label {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .info-value {
+            color: var(--white);
+            margin-bottom: 20px;
+            display: block;
+            font-size: 1.1rem;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            background: #08090c;
+            border: 1px solid #333;
+            padding: 15px;
+            color: var(--white);
+            font-family: 'Lato', sans-serif;
+            margin-bottom: 20px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.1);
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background: #000;
+            padding: 60px 10%;
+            text-align: center;
+            border-top: 3px solid var(--gold-dim);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 30px;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 { color: var(--gold); margin-bottom: 20px; font-size: 0.9rem; }
+        .footer-col ul { list-style: none; }
+        .footer-col li { margin-bottom: 10px; font-size: 0.85rem; color: #666; }
+        .footer-col a { color: #666; text-decoration: none; transition: 0.3s; }
+        .footer-col a:hover { color: var(--gold); }
+
+        .disclaimer-text {
+            font-size: 0.7rem;
+            color: #444;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.5;
+            text-transform: uppercase;
+        }
+
+        /* Animations & FX */
+        @keyframes pulse { 0% {opacity: 0.5;} 50% {opacity: 1;} 100% {opacity: 0.5;} }
+        @keyframes loadLine { 0% {width: 0;} 100% {width: 200px;} }
+        @keyframes fadeInUp { to {opacity: 1; transform: translateY(0);} }
+        
+        .glitch-text:hover {
+            animation: glitch-anim 0.3s infinite;
+            color: var(--red-alert);
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+        /* Modal Portal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-box {
+            background: var(--bg-color);
+            border: 1px solid var(--gold);
+            padding: 40px;
+            width: 400px;
+            text-align: center;
+            box-shadow: 0 0 50px rgba(197, 160, 89, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { padding: 15px; }
+            nav { display: none; } /* Mobile menu simplified */
+            .hero h1 { font-size: 2.5rem; }
+            .legacy-grid, .contact-grid, .footer-grid { grid-template-columns: 1fr; }
+            section { padding: 60px 5%; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-logo">F & S</div>
+        <div class="loader-line"></div>
+    </div>
+
+    <!-- Modal Portal do Cliente -->
+    <div class="modal-overlay" id="portalModal">
+        <div class="login-box">
+            <h3 style="color: var(--gold); margin-bottom: 20px;">Acesso Restrito</h3>
+            <p style="font-size: 0.8rem; margin-bottom: 20px;">Área exclusiva para clientes de Nível Platina. Conexão segura TLS 1.3.</p>
+            <input type="text" placeholder="ID do Cliente">
+            <input type="password" placeholder="Chave Privada">
+            <button class="cta-button" onclick="alert('Acesso negado. IP registrado por segurança.'); document.getElementById('portalModal').style.display='none';">Autenticar</button>
+            <p style="margin-top: 15px; font-size: 0.7rem; color: #444; cursor: pointer;" onclick="document.getElementById('portalModal').style.display='none'">[ Fechar ]</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="brand">
+            FIORE <span>&</span> STERLING
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#firm">A Firma</a></li>
+                <li><a href="#legacy">O Legado</a></li>
+                <li><a href="#cases">Vitórias</a></li>
+                <li><a href="#partner">Sócio Sênior</a></li>
+                <li>
+                    <a href="#" onclick="document.getElementById('portalModal').style.display='flex'" class="client-portal-btn">
+                        <i data-lucide="lock" size="14"></i> Portal do Cliente
+                    </a>
+                </li>
+                <li><a href="#contact" class="cta-button">Contatar</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="location-tag">OGAPORÃ, ESTADO DA NEBLINA</span>
+            <h1>A Lei é Maleável.<br>A Verdade, Opcional.</h1>
+            <p>"Defendendo o indefensável com elegância desde a fundação."</p>
+            <a href="#contact" class="cta-button">Solicitar Blindagem</a>
+        </div>
+    </section>
+
+    <!-- A Firma -->
+    <section id="firm">
+        <div class="section-title">
+            <h2>Fiore & Sterling Associates</h2>
+        </div>
+        <div class="legacy-grid">
+            <div class="legacy-text">
+                <h3 class="white-text" style="margin-bottom: 20px;">O Último Bastião de Ogaporã</h3>
+                <p>Em uma cidade consumida por sombras e interesses conflitantes, a justiça tradicional falha. É nesse vácuo que operamos. A <strong>Fiore & Sterling</strong> não é apenas um escritório de advocacia; é uma agência de gestão de realidade.</p>
+                <p>Nossos clientes não nos procuram para preencher papéis. Eles nos procuram quando suas vidas, fortunas e reputações estão por um fio. Nós cortamos o fio e tecemos um novo.</p>
+                <blockquote style="border-left: 2px solid var(--gold); padding-left: 20px; margin-top: 30px; font-style: italic; color: var(--gold-light);">
+                    "Não perguntamos se você fez. Perguntamos como você quer ser lembrado."
+                </blockquote>
+            </div>
+            <div style="text-align: center;">
+                <i data-lucide="scale" size="60" color="#c5a059" style="opacity: 0.5;"></i>
+                <div style="margin-top: 20px; font-family: 'Cinzel'; color: #444;">EST. 19XX</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="legacy" class="legacy-section">
+        <div class="section-title">
+            <h2>O Legado Sterling</h2>
+        </div>
+        <div class="legacy-grid">
+            <div style="background: #000; height: 300px; display: flex; align-items: center; justify-content: center; border: 1px solid #333;">
+                <p style="font-family: 'Cinzel'; letter-spacing: 5px; color: #333;">[ RETRATO INDISPONÍVEL ]</p>
+            </div>
+            <div class="legacy-text">
+                <h3 class="gold-text">Arthur Sterling</h3>
+                <h4 style="font-size: 0.8rem; color: #666; margin-bottom: 20px;">Sócio Fundador (Licenciado) & Diretor de Operações Internacionais</h4>
+                <p>Enquanto o Sr. Fiore domina os tribunais de Ogaporã, o Sr. Sterling supervisiona os interesses globais da firma a partir de nossa sede satélite em Zurique. Especialista em Direito Bancário Suíço e Blindagem de Ativos Offshore, Sterling é o arquiteto silencioso da estabilidade financeira de nossos clientes.</p>
+                <p>Devido à natureza sensível de suas operações na Europa, o Sr. Sterling <strong>não aceita consultas diretas</strong> e raramente retorna ao território nacional.</p>
+                
+                <div class="signature-block">
+                    <div class="sig-item">
+                        <span class="sig-img" style="color: var(--white);">Donovan Fiore</span>
+                        <small>Gestão de Litígio</small>
+                    </div>
+                    <div class="sig-item">
+                        <span class="sig-img">A. Sterling</span>
+                        <small>Gestão de Ativos</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cases">
+        <div class="section-title">
+            <h2>Vitórias Recentes</h2>
+        </div>
+        <div class="cases-grid">
+            <div class="case-card">
+                <span class="case-year">CASO #4920-B | 2023</span>
+                <h3 class="case-title">O Estado vs. <span class="redacted">GRUPO ALFA</span></h3>
+                <p style="font-size: 0.9rem;">Acusações: Fraude Corporativa em Larga Escala e <span class="redacted">TRÁFICO DE INFLUÊNCIA</span>.</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Estratégia: Invalidação de provas obtidas via escuta não autorizada e desconstrução da credibilidade da testemunha chave.</p>
+                <div class="case-result">Veredito: ABSOLVIÇÃO TOTAL</div>
+            </div>
+
+            <div class="case-card">
+                <span class="case-year">CASO #5102-X | 2024</span>
+                <h3 class="case-title">Inquérito <span class="redacted">SENADOR V.</span></h3>
+                <p style="font-size: 0.9rem;">Acusações: Homicídio Culposo e Ocultação de Cadáver na região de <span class="redacted">DOWNTOWN</span>.</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Estratégia: Reclassificação do fato para Legítima Defesa Putativa e acordo de confidencialidade com a família da vítima.</p>
+                <div class="case-result">Resultado: ARQUIVADO</div>
+            </div>
+
+            <div class="case-card">
+                <span class="case-year">CASO #3391-A | 2024</span>
+                <h3 class="case-title">Aquisição Hostil <span class="redacted">INDÚSTRIAS K.</span></h3>
+                <p style="font-size: 0.9rem;">Contexto: Tentativa de bloqueio judicial de fusão bilionária por parte do Ministério Público.</p>
+                <p style="font-size: 0.9rem; margin-top: 10px;">Estratégia: Manobra jurídica utilizando precedentes internacionais citados pelo sócio Sterling.</p>
+                <div class="case-result">Resultado: FUSÃO APROVADA</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="partner" class="partner-quote">
+        <div class="quote-text">
+            "A inocência é irrelevante. O que eu vendo é a dúvida razoável... e em Ogaporã, a dúvida custa caro."
+        </div>
+        <div class="quote-author glitch-text">
+            — Donovan Fiore
+        </div>
+        <p style="margin-top: 10px; font-size: 0.9rem; letter-spacing: 2px;">SÓCIO SÊNIOR</p>
+    </section>
+
+    <section id="faq" style="background: #0c0d12;">
+        <div class="section-title">
+            <h2>Perguntas Frequentes</h2>
+        </div>
+        <div class="faq-container">
+            <div class="faq-item" onclick="this.querySelector('.faq-answer').style.display = this.querySelector('.faq-answer').style.display === 'block' ? 'none' : 'block'">
+                <div class="faq-question">Vocês aceitam casos Pro Bono (Gratuitos)? <i data-lucide="chevron-down" size="16"></i></div>
+                <div class="faq-answer">Não. Acreditamos que o valor da liberdade deve ser tangível. Se o seu caso é uma causa humanitária, sugerimos a Defensoria Pública.</div>
+            </div>
+            <div class="faq-item" onclick="this.querySelector('.faq-answer').style.display = this.querySelector('.faq-answer').style.display === 'block' ? 'none' : 'block'">
+                <div class="faq-question">Posso falar diretamente com o Sr. Sterling? <i data-lucide="chevron-down" size="16"></i></div>
+                <div class="faq-answer">Conforme mencionado, o Sr. Sterling reside na Europa e lida exclusivamente com contas institucionais. Todas as comunicações são filtradas pelo Sr. Fiore.</div>
+            </div>
+            <div class="faq-item" onclick="this.querySelector('.faq-answer').style.display = this.querySelector('.faq-answer').style.display === 'block' ? 'none' : 'block'">
+                <div class="faq-question">Qual é a taxa de sucesso da firma? <i data-lucide="chevron-down" size="16"></i></div>
+                <div class="faq-answer">Se você precisa perguntar, provavelmente não pode pagar nossos honorários. Mas, para fins de registro: nunca perdemos um cliente que seguiu nossas instruções à risca.</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="section-title">
+            <h2>Canal Seguro</h2>
+        </div>
+        <div class="contact-grid">
+            <div>
+                <div class="info-card">
+                    <span class="info-label">ESCRITÓRIO CENTRAL</span>
+                    <span class="info-value">Ogaporã, Distrito Financeiro<br>Cobertura Torre Obsidian</span>
+                    
+                    <span class="info-label">LINHA CRIPTOGRAFADA (24H)</span>
+                    <span class="info-value" style="color: var(--gold);">+55 41 3047-1891</span>
+                    
+                    <span class="info-label">CHAVE PGP PÚBLICA</span>
+                    <span class="info-value" style="font-size: 0.7rem; font-family: monospace;">89A1 29CC 001B F492...</span>
+                </div>
+            </div>
+            <form onsubmit="event.preventDefault(); alert('Solicitação enviada. Se o seu caso for interessante, entraremos em contato.');">
+                <div style="display: flex; gap: 20px;">
+                    <input type="text" placeholder="Nome / Pseudônimo" required>
+                    <input type="text" placeholder="Empresa (Opcional)">
+                </div>
+                <input type="tel" placeholder="Número Descartável / Seguro" required>
+                <select>
+                    <option>Selecione a Gravidade da Situação</option>
+                    <option>Crítica (Risco de Prisão Imediata)</option>
+                    <option>Alta (Investigação em Curso)</option>
+                    <option>Preventiva (Blindagem)</option>
+                    <option>Sobrenatural / Inexplicável</option>
+                </select>
+                <textarea rows="5" placeholder="Descreva a situação omitindo nomes reais e locais específicos."></textarea>
+                <button type="submit" class="cta-button" style="width: 100%; cursor: pointer;">Solicitar Audiência de Emergência</button>
+            </form>
+        </div>
+    </section>
+
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>NAVEGAÇÃO</h4>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">A Firma</a></li>
+                    <li><a href="#">Portal do Cliente</a></li>
+                    <li><a href="#">Imprensa (Restrito)</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>ÁREAS DE PRÁTICA</h4>
+                <ul>
+                    <li>Defesa Criminal</li>
+                    <li>Crime de Colarinho Branco</li>
+                    <li>Gestão de Crise</li>
+                    <li>Direito do "Mausoléu"</li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>LEGAL</h4>
+                <ul>
+                    <li>Política de Privacidade</li>
+                    <li>Termos de Retenção</li>
+                    <li>Aviso de Isenção</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-logo brand" style="justify-content: center; margin-bottom: 20px;">
+            FIORE <span>&</span> STERLING
+        </div>
+        <div class="disclaimer-text">
+            © 2024 Fiore & Sterling Associates. Sede: Ogaporã. Filial Virtual: Zurique.<br><br>
+            AVISO DE CONFIDENCIALIDADE: O conteúdo deste site é destinado apenas para fins informativos de alto nível. Nenhuma relação advogado-cliente é formada pelo uso deste site. O escritório reserva-se o direito de recusar clientes baseados em conflito de interesses ou falta de alinhamento estético-moral. Qualquer tentativa de hackear este domínio resultará em contra-medidas legais e extrajudiciais imediatas.
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Remove Preloader
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('preloader').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('preloader').style.display = 'none';
+                }, 1000);
+            }, 1500); 
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                if(this.getAttribute('href') === '#') return;
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
