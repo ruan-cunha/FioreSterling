@@ -515,14 +515,16 @@
             </div>
 
             <form id="contact-form" onsubmit="handleStaticSubmit(event)">
+                <input type="hidden" name="_captcha" value="false">
+                
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
-                    <div style="margin-bottom: 30px;"><input type="text" placeholder="Nome Completo *" required></div>
-                    <div style="margin-bottom: 30px;"><input type="text" placeholder="Empresa / Entidade"></div>
+                    <div style="margin-bottom: 30px;"><input type="text" name="Nome" placeholder="Nome Completo *" required></div>
+                    <div style="margin-bottom: 30px;"><input type="text" name="Empresa" placeholder="Empresa / Entidade"></div>
                 </div>
-                <div style="margin-bottom: 30px;"><input type="email" placeholder="Email *" required></div>
-                <div style="margin-bottom: 30px;"><input type="tel" placeholder="Telefone Preferencial"></div>
+                <div style="margin-bottom: 30px;"><input type="email" name="Email" placeholder="Email *" required></div>
+                <div style="margin-bottom: 30px;"><input type="tel" name="Telefone" placeholder="Telefone Preferencial"></div>
                 <div style="margin-bottom: 30px;">
-                    <select>
+                    <select name="Assunto" required>
                         <option value="" disabled selected>Natureza do Assunto</option>
                         <option value="Defesa Criminal">Defesa Criminal (Urgente)</option>
                         <option value="Investigacao Corporativa">Investigação Corporativa</option>
@@ -531,7 +533,7 @@
                     </select>
                 </div>
                 <div style="margin-bottom: 30px;">
-                    <textarea rows="4" placeholder="Breve descrição. Recomendamos omitir nomes de terceiros e detalhes sensíveis nesta etapa inicial."></textarea>
+                    <textarea name="Mensagem" rows="4" placeholder="Breve descrição. Recomendamos omitir nomes de terceiros e detalhes sensíveis nesta etapa inicial." required></textarea>
                 </div>
                 <button type="submit" class="btn-gold" style="width: 100%;">Solicitar Avaliação de Caso</button>
             </form>
@@ -606,22 +608,35 @@
         function handleStaticSubmit(event) {
             event.preventDefault(); 
             
-            const btn = event.target.querySelector('button');
+            const form = event.target;
+            const btn = form.querySelector('button');
             const originalText = btn.innerText;
             
             btn.innerText = "Criptografando Dados...";
             btn.style.opacity = "0.7";
             btn.style.cursor = "wait";
 
-            setTimeout(() => {
+            const formData = new FormData(form);
+
+            fetch("https://formsubmit.co/ajax/fioreesterling@gmail.com", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
                 document.getElementById('successModal').style.display = 'flex';
                 
-                event.target.reset();
-                
+                form.reset();
                 btn.innerText = originalText;
                 btn.style.opacity = "1";
                 btn.style.cursor = "pointer";
-            }, 1500);
+            })
+            .catch(error => {
+                alert("Falha na conexão segura. A transmissão foi interceptada. Tente novamente.");
+                btn.innerText = originalText;
+                btn.style.opacity = "1";
+                btn.style.cursor = "pointer";
+            });
         }
     </script>
 </body>
